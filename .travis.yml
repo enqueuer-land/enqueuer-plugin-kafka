@@ -24,7 +24,8 @@ before_install:
 - cd kafka_2.11-1.0.0
 - bin/zookeeper-server-start.sh config/zookeeper.properties &
 - bin/kafka-server-start.sh ../../server.properties &
-- sleep 10 && temp/kafka_2.11-1.0.0/bin/kafka-topics.sh --create --topic enqueuer-topic-name --zookeeper localhost:2181 --partitions 3 --replication-factor 1 #We have to give some time for broker and zookeeper
+- sleep 10 && bin/kafka-topics.sh --create --topic enqueuer-topic-name --zookeeper localhost:2181 --partitions 3 --replication-factor 1 #We have to give some time for broker and zookeeper
+- cd ../../
 
 script:
 - npm install
