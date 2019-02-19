@@ -1,0 +1,34 @@
+language: node_js
+
+sudo: required
+
+node_js:
+- v10.8.0
+
+cache:
+    directories:
+    - node_modules
+
+notifications:
+    email:
+        recipients:
+        - guilherme.moraes@outlook.com
+        on_success: never
+        on_failure: always
+
+before_install:
+- mkdir temp
+- wget -O temp/kafka_2.11-1.0.0.tgz https://archive.apache.org/dist/kafka/1.0.0/kafka_2.11-1.0.0.tgz
+- cd temp
+- tar -xvzf kafka_2.11-1.0.0.tgz
+- cd kafka_2.11-1.0.0
+- bin/zookeeper-server-start.sh config/zookeeper.properties &
+- bin/kafka-server-start.sh ../../server.properties &
+- sleep 10 && temp/kafka_2.11-1.0.0/bin/kafka-topics.sh --create --topic enqueuer-topic-name --zookeeper localhost:2181 --partitions 3 --replication-factor 1 #We have to give some time for broker and zookeeper
+
+script:
+- npm install
+- npm run lint
+- npm run build
+- npm link
+- nqr -a examples/kafka.yml -l /home/travis/build/lopidio/enqueuer-plugin-kafka

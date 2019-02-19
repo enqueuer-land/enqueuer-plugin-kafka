@@ -1,0 +1,41 @@
+{
+  "name": "enqueuer-plugin-kafka",
+  "version": "0.0.1",
+  "description": "Enqueuer kafka plugin",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "all": "npm run clean && npm run lint && npm run build",
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "lint": "node_modules/.bin/tslint --project tsconfig.json",
+    "prepublishOnly": "npm run all"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lopidio/enqueuer-plugin-kafka.git"
+  },
+  "keywords": [
+    "enqueuer",
+    "nqr",
+    "kafka",
+    "plugin"
+  ],
+  "author": "Virgs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lopidio/enqueuer-plugin-kafka/issues"
+  },
+  "homepage": "https://github.com/lopidio/enqueuer-plugin-kafka#readme",
+  "devDependencies": {
+    "@types/node": "^11.9.4",
+    "@types/kafka-node": "^2.0.7",
+    "ts-node": "^8.0.2",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.1"
+  },
+  "dependencies": {
+    "enqueuer-plugins-template": "^1.0.4",
+    "kafka-node": "^4.0.0"
+  }
+}

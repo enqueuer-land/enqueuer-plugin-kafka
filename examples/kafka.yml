@@ -1,0 +1,25 @@
+timeout: 8000
+publishers:
+-   type: kafka
+    client:
+        kafkaHost: localhost:9093
+    topic: enqueuer-topic-name
+    payload: message to be sent
+    onMessageReceived:
+        assertions:
+        -   expectToBeDefined: JSON.parse(message)["enqueuer-topic-name"]
+subscriptions:
+-   type: kafka
+    timeout: 4000
+    client:
+        kafkaHost: localhost:9093
+    options:
+        topic: enqueuer-topic-name
+    onMessageReceived:
+        assertions:
+        -   expect: value
+            toBeEqualTo: `message to be sent`
+        -   expect: topic
+            toBeEqualTo: `enqueuer-topic-name`
+        -   expectToBeDefined: offset
+        -   expectToBeDefined: partition
