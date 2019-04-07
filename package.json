@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lopidio/enqueuer-plugin-kafka.git"
+    "url": "git+https://github.com/enqueuer-land/enqueuer-plugin-kafka.git"
   },
   "keywords": [
     "enqueuer",
@@ -24,9 +24,9 @@
   "author": "Virgs",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lopidio/enqueuer-plugin-kafka/issues"
+    "url": "https://github.com/enqueuer-land/enqueuer-plugin-kafka/issues"
   },
-  "homepage": "https://github.com/lopidio/enqueuer-plugin-kafka#readme",
+  "homepage": "https://github.com/enqueuer-land/enqueuer-plugin-kafka#readme",
   "devDependencies": {
     "@types/node": "^11.9.4",
     "@types/kafka-node": "^2.0.7",
