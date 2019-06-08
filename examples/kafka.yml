@@ -5,9 +5,10 @@ publishers:
         kafkaHost: localhost:9093
     topic: enqueuer-topic-name
     payload: message to be sent
-    onMessageReceived:
+    onPublish:
+        script: payload = JSON.parse(message)
         assertions:
-        -   expectToBeDefined: JSON.parse(message)["enqueuer-topic-name"]
+        -   expectToBeDefined: payload["enqueuer-topic-name"]
 subscriptions:
 -   type: kafka
     timeout: 4000

@@ -11,8 +11,6 @@ cache:
 
 notifications:
     email:
-        recipients:
-        - guilherme.moraes@outlook.com
         on_success: never
         on_failure: always
 

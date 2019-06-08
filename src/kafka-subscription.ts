@@ -1,4 +1,4 @@
-import {Logger, MainInstance, Subscription, SubscriptionModel, SubscriptionProtocol} from 'enqueuer-plugins-template';
+import {Logger, MainInstance, Subscription, InputSubscriptionModel as SubscriptionModel, SubscriptionProtocol} from 'enqueuer';
 import {KafkaClient, Offset, Message, Consumer} from 'kafka-node';
 
 export class KafkaSubscription extends Subscription {
@@ -66,7 +66,7 @@ export class KafkaSubscription extends Subscription {
                     } else {
                         this.latestOffset = offsets[this.options.topic][0];
                         Logger.trace('Kafka offset fetched');
-                        this.ableToUnsubscribe = true;
+                        this['ableToUnsubscribe'] = true;
                         resolve();
                     }
                 });
@@ -100,7 +100,7 @@ export class KafkaSubscription extends Subscription {
 export function entryPoint(mainInstance: MainInstance): void {
     const kafka = new SubscriptionProtocol('kafka',
         (subscriptionModel: SubscriptionModel) => new KafkaSubscription(subscriptionModel),
-        ['topic', 'value', 'offset', 'partition', 'highWaterOffset', 'key'])
+        {onMessageReceived: ['topic', 'value', 'offset', 'partition', 'highWaterOffset', 'key']})
         .setLibrary('kafka-node');
     mainInstance.protocolManager.addProtocol(kafka);
 }

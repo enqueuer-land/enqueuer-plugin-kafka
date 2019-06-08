@@ -1,6 +1,6 @@
 {
   "name": "enqueuer-plugin-kafka",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Enqueuer kafka plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,14 +28,14 @@
   },
   "homepage": "https://github.com/enqueuer-land/enqueuer-plugin-kafka#readme",
   "devDependencies": {
-    "@types/node": "^11.9.4",
     "@types/kafka-node": "^2.0.7",
-    "ts-node": "^8.0.2",
-    "tslint": "^5.11.0",
-    "typescript": "^3.0.1"
+    "@types/node": "^11.13.13",
+    "ts-node": "^8.2.0",
+    "tslint": "^5.17.0",
+    "typescript": "^3.5.1"
   },
   "dependencies": {
-    "enqueuer-plugins-template": "^1.0.4",
-    "kafka-node": "^4.0.0"
+    "enqueuer": "^4.7.6",
+    "kafka-node": "^4.1.3"
   }
 }
