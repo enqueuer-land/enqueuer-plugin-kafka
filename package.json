@@ -28,14 +28,14 @@
   },
   "homepage": "https://github.com/enqueuer-land/enqueuer-plugin-kafka#readme",
   "devDependencies": {
-    "@types/kafka-node": "^2.0.7",
-    "@types/node": "^11.13.13",
-    "ts-node": "^8.2.0",
-    "tslint": "^5.17.0",
-    "typescript": "^3.5.1"
+    "@types/kafka-node": "^2.0.8",
+    "@types/node": "^11.13.15",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.2"
   },
   "dependencies": {
-    "enqueuer": "^4.7.6",
+    "enqueuer": "^5.0.0",
     "kafka-node": "^4.1.3"
   }
 }

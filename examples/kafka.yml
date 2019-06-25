@@ -5,7 +5,7 @@ publishers:
         kafkaHost: localhost:9093
     topic: enqueuer-topic-name
     payload: message to be sent
-    onPublish:
+    onPublished:
         script: payload = JSON.parse(message)
         assertions:
         -   expectToBeDefined: payload["enqueuer-topic-name"]

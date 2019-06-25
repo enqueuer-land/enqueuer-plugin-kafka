@@ -14,7 +14,7 @@ export class KafkaPublisher extends Publisher {
         ];
     }
 
-    public publish(): Promise<any> {
+    public publish(): Promise<void> {
         return new Promise((resolve, reject) => {
             const producer = new Producer(this.client);
             Logger.trace(`Waiting for kafka publisher client connection`);
@@ -32,7 +32,7 @@ export class KafkaPublisher extends Publisher {
                     reject(err);
                 } else {
                     producer.close();
-                    this.executeHookEvent('onPublish', {message: JSON.stringify(data)});
+                    this.executeHookEvent('onPublished', {message: JSON.stringify(data)});
                     this.client.close();
                     resolve();
 
@@ -46,7 +46,34 @@ export class KafkaPublisher extends Publisher {
 export function entryPoint(mainInstance: MainInstance): void {
     const kafka = new PublisherProtocol('kafka',
         (publisherModel: PublisherModel) => new KafkaPublisher(publisherModel),
-        {onPublish: ['message']})
+        {
+            homepage: 'https://github.com/enqueuer-land/enqueuer-plugin-kafka',
+            description: 'Publisher to handle kafka messages',
+            libraryHomepage: 'https://www.npmjs.com/package/kafka-node',
+            schema: {
+                attributes: {
+                    client: {
+                        type: 'object',
+                        required: true
+                    },
+                    topic: {
+                        type: 'string',
+                        required: true
+                    },
+                    payload: {
+                        type: 'any',
+                        required: true
+                    }
+                },
+                hooks: {
+                    onPublished: {
+                        arguments: {
+                            message: {}
+                        }
+                    }
+                }
+            }
+        })
         .setLibrary('kafka-node');
     mainInstance.protocolManager.addProtocol(kafka);
 }

@@ -18,12 +18,13 @@ export class KafkaSubscription extends Subscription {
         this.offset = new Offset(this.client);
     }
 
-    public receiveMessage(): Promise<any> {
+    public receiveMessage(): Promise<void> {
         return new Promise((resolve, reject) => {
             const consumer = this.createConsumer();
             consumer.on('message', (message: Message) => {
                 Logger.trace('Kafka message data: ' + JSON.stringify(message));
-                resolve(message);
+                this.executeHookEvent('onMessageReceived', message);
+                resolve();
                 consumer.close(() => {
                     Logger.trace('Kafka consumer is closed');
                 });
@@ -47,12 +48,13 @@ export class KafkaSubscription extends Subscription {
                 Logger.error(message);
                 throw message;
             });
-            return await this.fetchOffset();
+            await this.fetchOffset();
         } catch (exc) {
             const message = `Error connecting kafka ${JSON.stringify(exc)}`;
             Logger.error(message);
             throw message;
         }
+        this.executeHookEvent('onSubscribed');
     }
 
     private fetchOffset(): Promise<void> {
@@ -100,7 +102,43 @@ export class KafkaSubscription extends Subscription {
 export function entryPoint(mainInstance: MainInstance): void {
     const kafka = new SubscriptionProtocol('kafka',
         (subscriptionModel: SubscriptionModel) => new KafkaSubscription(subscriptionModel),
-        {onMessageReceived: ['topic', 'value', 'offset', 'partition', 'highWaterOffset', 'key']})
+        {
+            homepage: 'https://github.com/enqueuer-land/enqueuer-plugin-kafka',
+            description: 'Publisher to handle kafka messages',
+            libraryHomepage: 'https://www.npmjs.com/package/kafka-node',
+            schema: {
+                attributes: {
+                    client: {
+                        type: 'object',
+                        required: true
+                    },
+                    topic: {
+                        type: 'string',
+                        required: true
+                    },
+                    payload: {
+                        type: 'any',
+                        required: true
+                    }
+                },
+                hooks: {
+                    onMessageReceived: {
+                        arguments: {
+                            topic: {},
+                            message: {},
+                            value: {},
+                            offset: {},
+                            partition: {},
+                            highWaterOffset: {},
+                            key: {},
+                        }
+                    },
+                    onSubscribed: {
+                        arguments: {}
+                    }
+                }
+            }
+        })
         .setLibrary('kafka-node');
     mainInstance.protocolManager.addProtocol(kafka);
 }
