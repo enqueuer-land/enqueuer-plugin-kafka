@@ -14,7 +14,7 @@ export class KafkaPublisher extends Publisher {
         ];
     }
 
-    public publish(): Promise<void> {
+    public publish(): Promise<any> {
         return new Promise((resolve, reject) => {
             const producer = new Producer(this.client);
             Logger.trace(`Waiting for kafka publisher client connection`);
@@ -32,9 +32,10 @@ export class KafkaPublisher extends Publisher {
                     reject(err);
                 } else {
                     producer.close();
-                    this.executeHookEvent('onPublished', {message: JSON.stringify(data)});
+                    const args = {message: JSON.stringify(data)};
+                    this.executeHookEvent('onPublished', args);
                     this.client.close();
-                    resolve();
+                    resolve(args);
 
                 }
             });
