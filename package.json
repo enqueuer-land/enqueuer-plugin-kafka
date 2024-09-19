@@ -35,7 +35,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "enqueuer": "^5.1.4",
+    "enqueuer": "^6.0.0",
     "kafka-node": "^4.1.3"
   }
 }
